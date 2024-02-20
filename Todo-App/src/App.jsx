@@ -1,9 +1,11 @@
-import TodoForm from "./components/TodoForm";
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/prop-types */
+import Gallery from "./components/Gallery";
 
 function App() {
   return (
     <>
-      <TodoForm />
+      <Gallery />
     </>
   );
 }

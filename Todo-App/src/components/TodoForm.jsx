@@ -1,3 +1,5 @@
+import TodoItem from "./TodoItem";
+
 /* eslint-disable react/jsx-key */
 const TodoForm = () => {
   const todo = [
@@ -11,17 +13,15 @@ const TodoForm = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "80%",
-        height: "80%",
+        width: "100%",
+        height: "100%",
         border: "1px solid black",
-        minHeight: 300,
+        flexDirection: "column",
       }}
     >
       <h3>My Todo App</h3>
       {todo.map((element, index) => (
-        <div key={index}>
-          {element.name} {element.priority}
-        </div>
+        <TodoItem name={element.name} key={index} />
       ))}
 
       {/* input component */}
