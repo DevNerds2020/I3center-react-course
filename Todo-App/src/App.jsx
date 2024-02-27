@@ -1,11 +1,13 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
-import Gallery from "./components/Gallery";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {}, []);
   return (
     <>
-      <Gallery />
+      <button onClick={() => setOpen(!open)}>change open</button>
     </>
   );
 }

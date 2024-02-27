@@ -3,11 +3,7 @@
 import Button from "./Button";
 
 const TodoItem = (props) => {
-  const { name } = props;
-
-  const handleDelete = () => {
-    alert(`${name} task completed`);
-  };
+  const { name, handleClick, todoId, isComplete, handleDelete } = props;
 
   return (
     <>
@@ -21,9 +17,22 @@ const TodoItem = (props) => {
           height: "100%",
           background: "gray",
         }}
+        id={todoId}
       >
-        <Button handleClick={handleDelete} buttonLabel="delete" />
-        <button>done</button>
+        {isComplete ? <>done</> : <>not done</>}
+        <Button
+          handleClick={() => {
+            handleDelete(todoId);
+          }}
+          buttonLabel="delete"
+        />
+        <button
+          onClick={() => {
+            handleClick(todoId);
+          }}
+        >
+          done
+        </button>
         <h6>{name}</h6>
       </div>
     </>

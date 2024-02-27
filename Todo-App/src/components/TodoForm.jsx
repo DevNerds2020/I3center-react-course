@@ -1,11 +1,40 @@
+import { useState } from "react";
 import TodoItem from "./TodoItem";
 
 /* eslint-disable react/jsx-key */
 const TodoForm = () => {
-  const todo = [
-    { name: "task 1", priority: "1" },
-    { name: "task 2", priority: "2" },
-  ];
+  const [todo, setTodo] = useState([
+    { id: 1, name: "task 1", priority: "1", isComplete: false },
+    { id: 2, name: "task 2", priority: "2", isComplete: false },
+  ]);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleClick = (todoId) => {
+    console.log("%c Line:12 🍌 todoId", "color:#2eafb0", todoId);
+    const newValue = todo.map((item) => {
+      if (item.id === todoId) {
+        return {
+          ...item,
+          isComplete: !item.isComplete,
+        };
+      } else {
+        return item;
+      }
+    });
+
+    setTodo(newValue);
+  };
+
+  const handleDelete = (todoId) => {
+    const newValue = todo.filter((item) => item.id !== todoId);
+    console.log(todo);
+    console.log("%c Line:29 🥟 newValue", "color:#2eafb0", newValue);
+    setTodo(newValue);
+  };
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
 
   return (
     <div
@@ -19,9 +48,18 @@ const TodoForm = () => {
         flexDirection: "column",
       }}
     >
+      <input onChange={handleChange}></input>
+      <h5>{inputValue}</h5>
       <h3>My Todo App</h3>
       {todo.map((element, index) => (
-        <TodoItem name={element.name} key={index} />
+        <TodoItem
+          handleClick={handleClick}
+          todoId={element.id}
+          name={element.name}
+          key={index}
+          isComplete={element.isComplete}
+          handleDelete={handleDelete}
+        />
       ))}
 
       {/* input component */}
