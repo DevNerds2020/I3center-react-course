@@ -29,7 +29,10 @@ const CoinList = () => {
     try {
       const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd');
       console.log(response)
-      const data = await response.json();
+      
+      const data = response.ok ? await response.json() : coinData;
+      
+      console.log("%c Line:33 🥟 data", "color:#33a5ff", data);
       setCoins(data);
       defaultCoins.current = data
     } catch (error) {
@@ -38,10 +41,12 @@ const CoinList = () => {
   };
 
   useEffect(() => {
+    console.log(coinData)
     fetchData();
   }, []);
 
   const searchCrypto = (event) => {
+    event.preventDefault()
     const newCoins = defaultCoins.current.filter(coin => coin.id.includes(event.target.value) || coin.symbol.includes(event.target.value))
     setCoins(newCoins)
   }
