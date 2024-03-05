@@ -1,15 +1,11 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
 
+import { useRef } from "react";
 function App() {
-  const [open, setOpen] = useState(false);
-  useEffect(() => {}, []);
-  return (
-    <>
-      <button onClick={() => setOpen(!open)}>change open</button>
-    </>
-  );
+  const inputRef = useRef("0");
+  console.log(inputRef);
+  return <></>;
 }
 
 export default App;
