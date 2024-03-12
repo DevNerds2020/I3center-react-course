@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/css';
 import { coinData } from './coin-data';
+import { DataGrid } from '@mui/x-data-grid';
+import CircularProgress from '@mui/material/CircularProgress';
+import {useNavigate } from "react-router-dom";
+import ButtonAppBar from './ButtonAppBar';
 
 const coinListStyle = css`
   padding: 20px;
@@ -25,6 +29,8 @@ const priceStyle = css`
 const CoinList = () => {
   const defaultCoins = useRef([])
   const [coins, setCoins] = useState([]);
+  const navigate = useNavigate();
+
   const fetchData = async () => {
     try {
       const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd');
@@ -52,20 +58,40 @@ const CoinList = () => {
   }
 
   if(coins.length ===0){
-    return <>Loading </>
+    return <CircularProgress />
+  }
+
+  const columns =[
+    { field: 'image', headerName: 'Image', width: 100, renderCell: (params) => <img width={20} height={20} src={params.value} />, },
+    { field: 'id', headerName: 'ID', width: 100 },
+    { field: 'total_volume', headerName: 'Total Volume', width: 100 },
+  { field: 'current_price', headerName: 'Price', width: 100 },
+  { field: 'market_cap_rank', headerName: 'Rank', width: 100 },
+  { field: 'low_24h', headerName: 'high 24h', width: 100 },
+  { field: 'high_24h', headerName: 'low 24h', width: 100 },
+  ]
+
+  const onRowClick = (parameters) => {
+    console.log("%c Line:72 🍔 parameters", "color:#33a5ff", parameters);
+    navigate(`coins/${parameters.id}/`);
   }
 
   return (
     <div className={coinListStyle}>
-      <h2>Cryptocurrency Prices</h2>
-      <input onChange={searchCrypto}></input>
+      <ButtonAppBar />
       <div>
-        {coins.map((coin) => (
-          <div key={coin.id} className={coinItemStyle}>
-            <div className={coinNameStyle}>{coin.name}</div>
-            <div className={priceStyle}>{coin.current_price}</div>
-          </div>
-        ))}
+      <DataGrid
+        rows={coins}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 25 },
+          },
+        }}
+        pageSizeOptions={[5, 10, 25, 100]}
+        loading={false}
+        onRowClick={onRowClick}
+      />
       </div>
     </div>
   );
