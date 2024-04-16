@@ -1,22 +1,19 @@
 
-import { useRef } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+import { useState } from "react";
+import Map from "./components/Map";
+import Sidebar from "./components/Sidebar";
+import { MapContext } from "./context/MapContext";
 
 function App() {
-  const mapRef = useRef(null);
-  const latitude = 51.505;
-  const longitude = -0.09;
+  const [zoom, setZoom] = useState<number>(7)
+
   return (
-    <>
-      <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef} style={{ height: "100vh", width: "100vw" }}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {/* Additional map layers or components can be added here */}
-      </MapContainer>
-    </>
+    <div style={{ display: "flex" }}>
+      <MapContext.Provider value={{zoom, setZoom}}>
+        <Sidebar />
+        <Map />
+      </MapContext.Provider>
+    </div>
   )
 }
 
