@@ -8,14 +8,14 @@ const Map = () => {
     console.log("%c Line:8 🥤 mapRef", "color:#2eafb0", mapRef);
     const latitude = 35.7219;
     const longitude = 51.3347;
-    
+
     const mapItems = useContext(MapContext)
 
     useEffect(() => {
-        if(mapRef.current){
-            mapRef.current.setView([latitude, longitude], mapItems.zoom)
+        if (mapRef.current) {
+            mapRef.current.setView(mapItems.center, mapItems.zoom)
         }
-    }, [mapItems.zoom])
+    }, [mapItems.zoom, mapItems.center])
     console.log("%c Line:12 🍢 mapItems", "color:#93c0a4", mapItems);
     return (
         <MapContainer center={[latitude, longitude]} zoom={mapItems.zoom} ref={mapRef} style={{ height: "100vh", width: "70vw" }}>
