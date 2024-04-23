@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { MapContext } from "../context/MapContext";
+import { useSelector } from "react-redux";
 
 const Map = () => {
     const mapRef = useRef<null>(null);
@@ -9,16 +10,16 @@ const Map = () => {
     const latitude = 35.7219;
     const longitude = 51.3347;
 
-    const mapItems = useContext(MapContext)
+    const map = useSelector((state) => state.map)
 
     useEffect(() => {
         if (mapRef.current) {
-            mapRef.current.setView(mapItems.center, mapItems.zoom)
+            mapRef.current.setView(map.center, map.zoom)
         }
-    }, [mapItems.zoom, mapItems.center])
-    console.log("%c Line:12 🍢 mapItems", "color:#93c0a4", mapItems);
+    }, [map.zoom, map.center])
+    
     return (
-        <MapContainer center={[latitude, longitude]} zoom={mapItems.zoom} ref={mapRef} style={{ height: "100vh", width: "70vw" }}>
+        <MapContainer center={[latitude, longitude]} zoom={map.zoom} ref={mapRef} style={{ height: "100vh", width: "70vw" }}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

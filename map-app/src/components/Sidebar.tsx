@@ -1,12 +1,19 @@
 import { useContext, useRef, ChangeEvent } from "react"
 import { MapContext } from "../context/MapContext"
+import { useDispatch, useSelector } from "react-redux"
+import { incrementZoom } from "../mapSlice"
 
 const Sidebar = () => {
     const mapItems = useContext(MapContext)
     const inputValueRef = useRef<string>('')
 
+    const map = useSelector((state) =>  state.map)
+    const dispatch = useDispatch()
+
+    console.log("%c Line:10 🥥 map", "color:#3f7cff", map);
+
     const handleZoomIn = (): void => {
-        mapItems.setZoom((prev) => prev + 1)
+        dispatch(incrementZoom())
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
